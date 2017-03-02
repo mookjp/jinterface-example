@@ -1,0 +1,16 @@
+{application, erlang_jinterface_example,
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { erlang_jinterface_example_app, []}},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.

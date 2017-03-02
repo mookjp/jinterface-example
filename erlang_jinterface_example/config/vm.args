@@ -1,0 +1,6 @@
+-sname erlang_jinterface_example
+
+-setcookie erlang_jinterface_example_cookie
+
++K true
++A30
