@@ -14,7 +14,6 @@
 -export([init/1]).
 
 -define(SERVER, ?MODULE).
--define(ExecutablePath, "jinterface-example/bin/jinterface-example").
 
 %%====================================================================
 %% API functions
@@ -25,13 +24,6 @@ start_link() ->
     io:format("supervisour: ~p~n", [Sup]),
     {ok, Child} = supervisor:start_child(Sup, []),
     io:format("hello_server: ~p~n", [Child]),
-    JavaExecutablePath = filename:join([code:priv_dir(erlang_jinterface_example), ?ExecutablePath]),
-    io:format("executable path: ~p~n", [JavaExecutablePath]),
-    JavaNodePort = erlang:open_port(
-        {spawn_executable, JavaExecutablePath},
-        [{line, 1000}, use_stdio]
-    ),
-    io:format("java node started: ~p~n", [JavaNodePort]),
     {ok, self()}.
 
 %%====================================================================

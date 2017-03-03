@@ -14,8 +14,11 @@
     code_change/3]).
 
 -define(SERVER, ?MODULE).
+-define(ExecutablePath, "jinterface-example/bin/jinterface-example").
 
--record(state, {}).
+-record(state, {
+    java_node_port
+}).
 
 %%%===================================================================
 %%% API
@@ -51,7 +54,15 @@ start_link() ->
     {ok, State :: #state{}} | {ok, State :: #state{}, timeout() | hibernate} |
     {stop, Reason :: term()} | ignore).
 init([]) ->
-    {ok, #state{}}.
+    JavaExecutablePath = filename:join([code:priv_dir(erlang_jinterface_example), ?ExecutablePath]),
+    io:format("executable path: ~p~n", [JavaExecutablePath]),
+    JavaNodePort = erlang:open_port(
+        {spawn_executable, JavaExecutablePath},
+        [{line, 1000}, use_stdio]
+    ),
+    io:format("java node started: ~p~n", [JavaNodePort]),
+    {ok, #state{java_node_port = JavaNodePort}}.
+%%    {ok, #state{}}.
 
 %%--------------------------------------------------------------------
 %% @private
@@ -118,7 +129,8 @@ handle_info(Info, State) ->
 %%--------------------------------------------------------------------
 -spec(terminate(Reason :: (normal | shutdown | {shutdown, term()} | term()),
     State :: #state{}) -> term()).
-terminate(_Reason, _State) ->
+terminate(_Reason, State) ->
+    erlang:port_close(State#state.java_node_port),
     ok.
 
 %%--------------------------------------------------------------------
