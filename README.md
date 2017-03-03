@@ -1,5 +1,7 @@
 ## Setup
 
+Compile and copy java files to OTP Application directory:
+
 ```
 cd java-jinterface-example
 ./gradlew clean build
@@ -11,6 +13,14 @@ unzip java-jinterface-example/build/distributions/jinterface-example.zip -d erla
 ```
 cd erlang_jinterface_example
 ```
+
+Run epmd as debug mode:
+
+```
+epmd -d -d -d
+```
+
+Run OTP Application:
 
 ```
 rebar3 shell
